@@ -39,7 +39,7 @@ namespace MazeGrid
                 float intensity = ((float)maximum - (float)distance) / (float)maximum;
                 int dark = Convert.ToInt32(255 * intensity);
                 int bright = 128 + Convert.ToInt32(127 * intensity);
-                return Color.FromArgb(bright, dark, bright);
+                return Color.FromArgb(dark, dark, bright);
             }
             else
             {

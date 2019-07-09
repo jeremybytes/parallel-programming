@@ -9,10 +9,6 @@
 *.userosscache
 *.sln.docstates
 
-# PowerPoint files
-*.ppt
-*.pptx
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
