@@ -6,8 +6,8 @@ Want to see code run 7 times faster? Here we use parallel programming to make fu
 * **NonParalellizable**  
 This is the "Mazes" project that is difficult to make parallel due to the nature of the algorithms. The algoritms all require sequential processing, meaning that the next step cannot be computed until the previous step has been completed.
 
-* **ParallelForEach**  
-This is the "Conway's Game of Life" project. This shows how to use Parallel.ForEach to run multiple tasks in parallel. In addition, the "conway-performance" project compares different levels of parallel performance using Parallel.ForEach and Task.
+* **ParallelFor**  
+This is the "Conway's Game of Life" project. This shows how to use Parallel.For to run multiple tasks in parallel. In addition, the "conway-performance" project compares different levels of parallel performance using Parallel.For and Task.
 
 * **ParalleWithTask**  
 This is the "Digit Recognition" project that contains console applications to show single-threaded as well as parallel computation. There is also a desktop application to show performance differences side-by-side.
