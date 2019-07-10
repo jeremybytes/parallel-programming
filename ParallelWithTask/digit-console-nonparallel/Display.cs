@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace digit_console
 {
@@ -9,6 +6,7 @@ namespace digit_console
     {
         public static void OutputImages(int[] image1, int[] image2)
         {
+            string output = string.Empty;
             for (int i = 0; i < 28; i++)
             {
                 for (int j = 0; j < 28; j++)
@@ -16,18 +14,19 @@ namespace digit_console
                     char outputChar;
                     outputChar = GetDisplayCharForPixel(image1[(i * 28) + j]);
 
-                    Console.Write($"{outputChar}{outputChar}");
+                    output += $"{outputChar}{outputChar}";
                 }
-                Console.Write("  |  ");
+                output += "  |  ";
                 for (int j = 0; j < 28; j++)
                 {
                     char outputChar;
                     outputChar = GetDisplayCharForPixel(image2[(i * 28) + j]);
 
-                    Console.Write($"{outputChar}{outputChar}");
+                    output += $"{outputChar}{outputChar}";
                 }
-                Console.Write("\n");
+                output += "\n";
             }
+            Console.Write(output);
         }
 
         private static char GetDisplayCharForPixel(int i)

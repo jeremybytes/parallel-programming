@@ -42,7 +42,6 @@ namespace digit_console
                                                 image = ints, closestMatch = result.Pixels };
 
                 Console.SetCursorPosition(0, 0);
-
                 WriteOutput(prediction);
 
                 if (prediction.prediction != prediction.actual.ToString())

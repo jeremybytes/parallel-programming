@@ -44,24 +44,28 @@ namespace digit_console
                     int[] ints = imageString.Split(',').Select(x => Convert.ToInt32(x)).Skip(1).ToArray();
                     var result = Recognizers.predict(ints, classifier);
 
-                    return new Prediction { prediction = result.Label, actual = actual.ToString(),
-                                                    image = ints, closestMatch = result.Pixels };
+                    return new Prediction
+                    {
+                        prediction = result.Label,
+                        actual = actual.ToString(),
+                        image = ints,
+                        closestMatch = result.Pixels
+                    };
                 });
 
                 tasks.Add(task.ContinueWith(t =>
                 {
-                    lock(fileName)
+                    var prediction = t.Result;
+
+                    lock (fileName)
                     {
-                        var prediction = t.Result;
-
                         Console.SetCursorPosition(0, 0);
-
                         WriteOutput(prediction);
+                    }
 
-                        if (prediction.prediction != prediction.actual.ToString())
-                        {
-                            log = LogError(log, prediction);
-                        }
+                    if (prediction.prediction != prediction.actual.ToString())
+                    {
+                        log = LogError(log, prediction);
                     }
                 }));
 
