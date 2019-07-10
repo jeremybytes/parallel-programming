@@ -34,7 +34,7 @@ namespace digit_console
             Console.Clear();
             var startTime = DateTime.Now;
 
-            var tasks = new List<Task>();
+            var allTasks = new List<Task>();
 
             foreach (var imageString in rawValidation)
             {
@@ -42,23 +42,30 @@ namespace digit_console
                 {
                     int actual = imageString.Split(',').Select(x => Convert.ToInt32(x)).First();
                     int[] ints = imageString.Split(',').Select(x => Convert.ToInt32(x)).Skip(1).ToArray();
+
+                    // Call the CPU-intensive function
                     var result = Recognizers.predict(ints, classifier);
 
-                    return new Prediction
+                    var prediction = new Prediction
                     {
                         prediction = result.Label,
                         actual = actual.ToString(),
                         image = ints,
                         closestMatch = result.Pixels
                     };
+
+                    return prediction;
                 });
 
-                tasks.Add(task.ContinueWith(t =>
+                allTasks.Add(task);
+
+                var continuation = task.ContinueWith(t =>
                 {
                     var prediction = t.Result;
 
                     lock (fileName)
                     {
+                        // Display the result
                         Console.SetCursorPosition(0, 0);
                         WriteOutput(prediction);
                     }
@@ -67,11 +74,13 @@ namespace digit_console
                     {
                         log = LogError(log, prediction);
                     }
-                }));
+                });
 
+                allTasks.Add(continuation);
             }
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(allTasks);
+
             var endTime = DateTime.Now;
 
             Console.Clear();
@@ -90,6 +99,7 @@ namespace digit_console
             Console.WriteLine("\n\nEND END END END END END END END END");
             Console.ReadLine();
         }
+
         private static List<Prediction> LogError(List<Prediction> log, Prediction prediction)
         {
             log.Add(prediction);

@@ -36,11 +36,14 @@ namespace digit_console
             {
                 int actual = imageString.Split(',').Select(x => Convert.ToInt32(x)).First();
                 int[] ints = imageString.Split(',').Select(x => Convert.ToInt32(x)).Skip(1).ToArray();
+
+                // Call the CPU-intensive function
                 var result = Recognizers.predict(ints, classifier);
 
                 var prediction = new  Prediction { prediction = result.Label, actual = actual.ToString(),
                                                 image = ints, closestMatch = result.Pixels };
 
+                // Display the result
                 Console.SetCursorPosition(0, 0);
                 WriteOutput(prediction);
 
@@ -68,6 +71,7 @@ namespace digit_console
             Console.WriteLine("\n\nEND END END END END END END END END");
             Console.ReadLine();
         }
+
         private static List<Prediction> LogError(List<Prediction> log, Prediction prediction)
         {
             log.Add(prediction);
