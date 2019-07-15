@@ -28,4 +28,9 @@ A series of articles and videos exploring Conway's Game of Life
 * [Book Review: Parallel Programming with Microsoft .NET](https://jeremybytes.blogspot.com/2014/02/book-review-parallel-programming-with.html)  
 The book is from 2010 but is still relevant (particularly the introduction on selecting the right patterns). The book itself is available online here: [Parallel Programming with Microsoft .NET](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff963553(v=pandp.10)). Although the Microsoft Docs lists it as no longer maintained, there is no direct equivalent.
 
+* [Get Func-y: Delegates in .NET](http://www.jeremybytes.com/Demos.aspx#GF)  
+Articles and videos to get up-to-speed with delegates in C#, including Func and Action.
+
+* [Learn to Love Lambdas (and LINQ, Too!)](http://www.jeremybytes.com/Demos.aspx#LLL)  
+Articles and videos to get up-to-speed with lambda expressions in C#.
 --- 
