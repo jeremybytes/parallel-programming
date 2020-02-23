@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitDisplay", "DigitDisplay\DigitDisplay.csproj", "{8E1C0000-6DD5-42E0-8DAD-D75AF1FC249F}"
-EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "recognizers", "recognizers\recognizers.fsproj", "{B378C036-3FB5-4147-9F45-D9648DA8C155}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digit-console-parallel", "digit-console-parallel\digit-console-parallel.csproj", "{AB98514C-EDFB-4DFA-B017-FAFDB94C488B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digit-console-nonparallel", "digit-console-nonparallel\digit-console-nonparallel.csproj", "{C93C1F91-12A6-4ECF-AA6D-9A3A2F7B454E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digit-display", "digit-display\digit-display.csproj", "{1C6DE9E4-0C68-4168-AD21-BDCA3672DD97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E1C0000-6DD5-42E0-8DAD-D75AF1FC249F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E1C0000-6DD5-42E0-8DAD-D75AF1FC249F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E1C0000-6DD5-42E0-8DAD-D75AF1FC249F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E1C0000-6DD5-42E0-8DAD-D75AF1FC249F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B378C036-3FB5-4147-9F45-D9648DA8C155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B378C036-3FB5-4147-9F45-D9648DA8C155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B378C036-3FB5-4147-9F45-D9648DA8C155}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{C93C1F91-12A6-4ECF-AA6D-9A3A2F7B454E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C93C1F91-12A6-4ECF-AA6D-9A3A2F7B454E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C93C1F91-12A6-4ECF-AA6D-9A3A2F7B454E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6DE9E4-0C68-4168-AD21-BDCA3672DD97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6DE9E4-0C68-4168-AD21-BDCA3672DD97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6DE9E4-0C68-4168-AD21-BDCA3672DD97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6DE9E4-0C68-4168-AD21-BDCA3672DD97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

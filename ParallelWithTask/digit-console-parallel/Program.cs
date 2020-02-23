@@ -17,6 +17,12 @@ namespace digit_console
 
         static async Task Main(string[] args)
         {
+            bool mini = false;
+            if (args.Length > 0)
+            {
+                mini = args.Contains("-m");
+            }
+
             Console.Clear();
             Console.WriteLine("Loading training data...");
 
@@ -34,11 +40,11 @@ namespace digit_console
             Console.Clear();
             var startTime = DateTime.Now;
 
-            var allTasks = new List<Task>();
+            List<Task> digitTasks = new List<Task>();
 
             foreach (var imageString in rawValidation)
             {
-                var task = Task<Prediction>.Run(() =>
+                Task<Prediction> task = Task.Run(() =>
                 {
                     int actual = imageString.Split(',').Select(x => Convert.ToInt32(x)).First();
                     int[] ints = imageString.Split(',').Select(x => Convert.ToInt32(x)).Skip(1).ToArray();
@@ -53,21 +59,20 @@ namespace digit_console
                         image = ints,
                         closestMatch = result.Pixels
                     };
-
                     return prediction;
                 });
+                digitTasks.Add(task);
 
-                allTasks.Add(task);
 
-                var continuation = task.ContinueWith(t =>
+                Task continuation = task.ContinueWith(t =>
                 {
-                    var prediction = t.Result;
+                    Prediction prediction = t.Result;
 
                     lock (fileName)
                     {
                         // Display the result
                         Console.SetCursorPosition(0, 0);
-                        WriteOutput(prediction);
+                        WriteOutput(prediction, mini);
                     }
 
                     if (prediction.prediction != prediction.actual.ToString())
@@ -75,22 +80,23 @@ namespace digit_console
                         log = LogError(log, prediction);
                     }
                 });
-
-                allTasks.Add(continuation);
+                digitTasks.Add(continuation);
             }
 
-            await Task.WhenAll(allTasks);
-
+            await Task.WhenAll(digitTasks);
             var endTime = DateTime.Now;
 
             Console.Clear();
-            Console.WriteLine("Press ENTER to view errors");
-            Console.ReadLine();
-
-            foreach (var pred in log)
+            if (!mini)
             {
-                WriteOutput(pred);
-                Console.WriteLine("-------------------------------------");
+                Console.WriteLine("Press ENTER to view errors");
+                Console.ReadLine();
+
+                foreach (var pred in log)
+                {
+                    WriteOutput(pred, mini);
+                    Console.WriteLine("-------------------------------------");
+                }
             }
             Console.WriteLine($"Total Errors: {log.Count}");
             Console.WriteLine($"Start Time: {startTime}");
@@ -106,10 +112,13 @@ namespace digit_console
             return log;
         }
 
-        private static void WriteOutput(Prediction prediction)
+        private static void WriteOutput(Prediction prediction, bool miniDisplay = false)
         {
             Console.WriteLine($"Actual: {prediction.actual} - Prediction: {prediction.prediction}");
-            Display.OutputImages(prediction.image, prediction.closestMatch);
+            if (miniDisplay)
+                Display.OutputImages(prediction.image, null);
+            else
+                Display.OutputImages(prediction.image, prediction.closestMatch);
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Algorithms;
+using MazeGeneration;
 using MazeGrid;
-using Ninject;
 using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace DrawMaze
 {
@@ -10,35 +12,26 @@ namespace DrawMaze
     {
         static void Main(string[] args)
         {
-            // Ninject DI Container
-            IKernel Container = new StandardKernel();
-            Container.Bind<Grid>().ToMethod(c => new ColorGrid(15, 15));
-            Container.Bind<IMazeAlgorithm>().To<Sidewinder>();
-            Container.Bind<IMazeGenerator>().To<ConsoleLoggingDecorator>()
-                .WithConstructorArgument<IMazeGenerator>(Container.Get<MazeGenerator>());
-
-            IMazeGenerator generator = Container.Get<IMazeGenerator>();
-
-            //// Manual object wiring
-            //IMazeGenerator generator = 
-            //    new ConsoleLoggingDecorator(
-            //        new MazeGenerator(
-            //            new ColoredGrid(15, 15),
-            //            new Sidewinder()));
+            IMazeGenerator generator =
+                new MazeGenerator(
+                    new ColorGrid(20, 20),
+                    new RecursiveBacktracker());
 
             CreateAndShowMaze(generator);
-
             Console.ReadLine();
         }
 
         private static void CreateAndShowMaze(IMazeGenerator generator)
         {
-            var textMaze = generator.GetTextMaze(true);
+            generator.GenerateMaze();
+
+            string textMaze = generator.GetTextMaze(true);
             Console.WriteLine(textMaze);
 
-            var graphicMaze = generator.GetGraphicalMaze(true);
-            graphicMaze.Save("maze.png");
+            Bitmap graphicMaze = generator.GetGraphicalMaze(true);
+            graphicMaze.Save("maze.png", ImageFormat.Png);
             Process p = new Process();
+            p.StartInfo.UseShellExecute = true;
             p.StartInfo.FileName = "maze.png";
             p.Start();
         }

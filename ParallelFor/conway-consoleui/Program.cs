@@ -20,6 +20,9 @@ namespace conway_consoleui
             int rows = 30;
             int columns = 79;
 
+            //int rows = 15;
+            //int columns = 30;
+
             var grid = new LifeGrid(rows, columns);
             grid.Randomize();
 

@@ -1,24 +1,28 @@
-﻿using System;
+﻿using MazeGeneration;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DrawMaze
 {
     public class ConsoleLoggingDecorator : IMazeGenerator
     {
-        private readonly IMazeGenerator wrappedGenerator;
+        IMazeGenerator wrappedGenerator;
 
         public ConsoleLoggingDecorator(IMazeGenerator mazeGenerator)
         {
             wrappedGenerator = mazeGenerator;
         }
 
-        public string GetTextMaze(bool includePath = false)
+        public void GenerateMaze()
         {
             LogEnterMethod();
-            var result = wrappedGenerator.GetTextMaze(includePath);
+            wrappedGenerator.GenerateMaze();
             LogExitMethod();
-            return result;
         }
 
         public Bitmap GetGraphicalMaze(bool includeHeatMap = false)
@@ -29,6 +33,19 @@ namespace DrawMaze
             return result;
         }
 
+        public string GetTextMaze(bool includePath = false)
+        {
+            LogEnterMethod();
+            var result = wrappedGenerator.GetTextMaze(includePath);
+            LogExitMethod();
+            return result;
+        }
+
+        private void LogToConsole(string message)
+        {
+            Console.WriteLine($"{DateTime.Now:s}: {message}");
+        }
+
         private void LogEnterMethod([CallerMemberName] string methodName = null)
         {
             LogToConsole($"Entering '{methodName}'");
@@ -37,11 +54,6 @@ namespace DrawMaze
         private void LogExitMethod([CallerMemberName] string methodName = null)
         {
             LogToConsole($"Exiting '{methodName}'");
-        }
-
-        private void LogToConsole(string message)
-        {
-            Console.WriteLine($"{DateTime.Now:s}: {message}");
         }
     }
 }

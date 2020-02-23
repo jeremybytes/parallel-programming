@@ -16,6 +16,12 @@ namespace digit_console
 
         static void Main(string[] args)
         {
+            bool mini = false;
+            if (args.Length > 0)
+            {
+                mini = args.Contains("-m");
+            }
+
             Console.Clear();
             Console.WriteLine("Loading training data...");
 
@@ -40,12 +46,17 @@ namespace digit_console
                 // Call the CPU-intensive function
                 var result = Recognizers.predict(ints, classifier);
 
-                var prediction = new  Prediction { prediction = result.Label, actual = actual.ToString(),
-                                                image = ints, closestMatch = result.Pixels };
+                var prediction = new Prediction
+                {
+                    prediction = result.Label,
+                    actual = actual.ToString(),
+                    image = ints,
+                    closestMatch = result.Pixels
+                };
 
                 // Display the result
                 Console.SetCursorPosition(0, 0);
-                WriteOutput(prediction);
+                WriteOutput(prediction, mini);
 
                 if (prediction.prediction != prediction.actual.ToString())
                 {
@@ -56,13 +67,16 @@ namespace digit_console
             var endTime = DateTime.Now;
 
             Console.Clear();
-            Console.WriteLine("Press ENTER to view errors");
-            Console.ReadLine();
-
-            foreach (var pred in log)
+            if (!mini)
             {
-                WriteOutput(pred);
-                Console.WriteLine("-------------------------------------");
+                Console.WriteLine("Press ENTER to view errors");
+                Console.ReadLine();
+
+                foreach (var pred in log)
+                {
+                    WriteOutput(pred, mini);
+                    Console.WriteLine("-------------------------------------");
+                }
             }
             Console.WriteLine($"Total Errors: {log.Count}");
             Console.WriteLine($"Start Time: {startTime}");
@@ -78,10 +92,13 @@ namespace digit_console
             return log;
         }
 
-        private static void WriteOutput(Prediction prediction)
+        private static void WriteOutput(Prediction prediction, bool miniDisplay = false)
         {
             Console.WriteLine($"Actual: {prediction.actual} - Prediction: {prediction.prediction}");
-            Display.OutputImages(prediction.image, prediction.closestMatch);
+            if (miniDisplay)
+                Display.OutputImages(prediction.image, null);
+            else
+                Display.OutputImages(prediction.image, prediction.closestMatch);
         }
     }
 }

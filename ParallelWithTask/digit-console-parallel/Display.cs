@@ -16,13 +16,16 @@ namespace digit_console
 
                     output += $"{outputChar}{outputChar}";
                 }
-                output += "  |  ";
-                for (int j = 0; j < 28; j++)
+                if (image2 != null)
                 {
-                    char outputChar;
-                    outputChar = GetDisplayCharForPixel(image2[(i * 28) + j]);
+                    output += "  |  ";
+                    for (int j = 0; j < 28; j++)
+                    {
+                        char outputChar;
+                        outputChar = GetDisplayCharForPixel(image2[(i * 28) + j]);
 
-                    output += $"{outputChar}{outputChar}";
+                        output += $"{outputChar}{outputChar}";
+                    }
                 }
                 output += "\n";
             }
