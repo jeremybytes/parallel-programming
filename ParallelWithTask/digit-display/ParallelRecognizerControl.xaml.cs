@@ -38,7 +38,7 @@ namespace DigitDisplay
 
         public Task Start(string[] rawData, FSharpFunc<int[], Observation> classifier)
         {
-            var tasks = new List<Task<Observation>>();
+            var allTasks = new List<Task<Observation>>();
             foreach (var imageString in rawData)
             {
                 int actual = imageString.Split(',').Select(x => Convert.ToInt32(x)).First();
@@ -49,7 +49,7 @@ namespace DigitDisplay
                     return Recognizers.predict<Observation>(ints, classifier);
                 }
                 );
-                tasks.Add(task);
+                allTasks.Add(task);
                 task.ContinueWith(t =>
                     {
                         CreateUIElements(t.Result.Label, actual.ToString(), imageString, DigitsBox);
@@ -57,8 +57,8 @@ namespace DigitDisplay
                     TaskScheduler.FromCurrentSynchronizationContext()
                 );
             }
-            Task.WhenAny(tasks).ContinueWith(t => startTime = DateTime.Now);
-            return Task.CompletedTask;
+            Task.WhenAny(allTasks).ContinueWith(t => startTime = DateTime.Now);
+            return Task.WhenAll(allTasks);
         }
 
         private void CreateUIElements(string prediction, string actual, string imageData,
